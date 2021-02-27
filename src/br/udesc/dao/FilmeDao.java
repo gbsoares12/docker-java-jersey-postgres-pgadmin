@@ -5,11 +5,13 @@
  */
 package br.udesc.dao;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 import br.udesc.modelo.Filme;
 import br.udesc.modelo.FilmeClassificacao;
+import br.udesc.modelo.ServicoUsado;
 
 /**
  *
@@ -36,15 +38,20 @@ public class FilmeDao extends BaseDao {
 		return registros;
 	}
 
-	public Filme iniciarFilme(int id) throws Exception {
+	public Filme iniciarFilme(int idCliente, int idFilme) throws Exception {
 		Filme filme;
 
-		filme = (Filme) this.getById(id);
+		filme = (Filme) this.getById(idFilme);
 		if (!filme.getDsNome().isEmpty()) {
+
+			ServicoUsadoDao bcDao = (ServicoUsadoDao) this.newDaoInstance("ServicoUsadoDao");;
+
+			ServicoUsado backlog = new ServicoUsado(idCliente, 4, new Timestamp(System.currentTimeMillis()));
+			bcDao.add(backlog);
 
 			return filme;
 		} else {
-			
+
 			throw new Exception("Filme não encontrado");
 		}
 

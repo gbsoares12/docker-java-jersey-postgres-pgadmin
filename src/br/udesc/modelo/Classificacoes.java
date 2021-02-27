@@ -4,31 +4,38 @@ import java.io.Serializable;
 
 public class Classificacoes implements IModelo, Serializable {
 	
-	private Filme filme;
-	private Usuario usuario;
+	private int cdFilme;
+	private int cdUsuario;
 	private boolean snGostou;
 	
 	@Override
 	public int getId() {
 		return 0;
 	}
-	
-	public void setUsuario(Usuario user) {
-		this.usuario = user;
+		
+	public Classificacoes(int cdFilme, int cdUsuario, boolean snGostou) {
+		super();
+		this.cdFilme = cdFilme;
+		this.cdUsuario = cdUsuario;
+		this.snGostou = snGostou;
 	}
-	
-	public Usuario getUsuario() {
-		return this.usuario;
+
+	public int getCdFilme() {
+		return cdFilme;
 	}
-	
-	public void setFilme(Filme filme) {
-		this.filme = filme;
+
+	public void setCdFilme(int cd_filme) {
+		this.cdFilme = cd_filme;
 	}
-	
-	public Filme getFilme() {
-		return this.filme;
+
+	public int getCdUsuario() {
+		return cdUsuario;
 	}
-	
+
+	public void setCdUsuario(int cd_usuario) {
+		this.cdUsuario = cd_usuario;
+	}
+
 	public void setSnGostou(boolean gostou) {
 		this.snGostou = gostou;
 	}
