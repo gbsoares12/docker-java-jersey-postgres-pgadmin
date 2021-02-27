@@ -5,47 +5,49 @@
  */
 package br.udesc.dao;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import br.udesc.modelo.Classificacoes;
-import br.udesc.modelo.Elenco;
 import br.udesc.modelo.Filme;
 import br.udesc.modelo.FilmeClassificacao;
-import br.udesc.modelo.IModelo;
-
 
 /**
  *
- * @author Andrew, Viviane
+ * @author Andrew, Viviane, Gabriel
  */
 public class FilmeDao extends BaseDao {
 
-    public FilmeDao() {
-        super("filmes", new String[] {"cd_filme"});
-    }
-    
-    public List<FilmeClassificacao> getAllWithClassification() {
-    	List<Filme> registroFilmes = this.getAll();
-    	List<FilmeClassificacao> registros = new ArrayList<>();
-    	
-    	ClassificacoesDao claDao = (ClassificacoesDao) this.newDaoInstance("ClassificacoesDao");
-    	for (Filme filme: registroFilmes) {
-    		FilmeClassificacao filClz = new FilmeClassificacao();
-    		filClz.setFilme(filme);
-    		filClz.setClassificacoes(claDao.getAllByFilmes(filme.getId()));
-    		registros.add(filClz);
+	public FilmeDao() {
+		super("filmes", new String[] { "cd_filme" });
+	}
+
+	public List<FilmeClassificacao> getAllWithClassification() {
+		List<Filme> registroFilmes = this.getAll();
+		List<FilmeClassificacao> registros = new ArrayList<>();
+
+		ClassificacoesDao claDao = (ClassificacoesDao) this.newDaoInstance("ClassificacoesDao");
+		for (Filme filme : registroFilmes) {
+			FilmeClassificacao filClz = new FilmeClassificacao();
+			filClz.setFilme(filme);
+			filClz.setClassificacoes(claDao.getAllByFilmes(filme.getId()));
+			registros.add(filClz);
 		}
 
 		return registros;
-    }
-    
+	}
+
+	public Filme iniciarFilme(int id) throws Exception {
+		Filme filme;
+
+		filme = (Filme) this.getById(id);
+		if (!filme.getDsNome().isEmpty()) {
+
+			return filme;
+		} else {
+			
+			throw new Exception("Filme não encontrado");
+		}
+
+	}
+
 }
