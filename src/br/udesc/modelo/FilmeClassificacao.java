@@ -27,7 +27,7 @@ public class FilmeClassificacao implements IModelo, Serializable {
 	public void setClassificacoes(List<Classificacoes> list) {
 		this.classificacoes = new ArrayList<>();
 		for (Classificacoes classi : list) {
-			this.classificacoes.add(new Classificacao(classi.getUsuario().getDsNome(), classi.getSnGostou()));
+			this.classificacoes.add(new Classificacao(classi.getCdUsuario(), classi.getSnGostou()));
 		}
 	}
 	
@@ -36,25 +36,25 @@ public class FilmeClassificacao implements IModelo, Serializable {
 	}
 	
 	public class Classificacao implements Serializable {
-		private String userName;
+		private int cdUsuario;
 		private boolean gostou;
 		
 		public Classificacao() {
-			this("", false);
+			this(0, false);
 		}
 		
-		public Classificacao(String userName, boolean gostou) {
-			this.userName = userName;
+		public Classificacao(int cdUsuario, boolean gostou) {
+			this.cdUsuario = cdUsuario;
 			this.gostou = gostou;
 		}
 		
 		
-		public void setUserName(String userName) {
-			this.userName = userName;
+		public void setCdUsuario(int cdUsuario) {
+			this.cdUsuario = cdUsuario;
 		}
 		
-		public String getUserName() {
-			return this.userName;
+		public int getCdUsuario() {
+			return this.cdUsuario;
 		}
 		
 		public void setGostou(boolean gostou) {

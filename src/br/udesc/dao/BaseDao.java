@@ -8,7 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
+import java.sql.Timestamp;
 import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -334,6 +334,10 @@ public abstract class BaseDao implements IDao {
 				}
 				case "boolean": {
 					stm.setBoolean(position, (boolean) result);
+					break;
+				}
+				case "Timestamp": {
+					stm.setTimestamp(position, (Timestamp) result);
 					break;
 				}
 				default:

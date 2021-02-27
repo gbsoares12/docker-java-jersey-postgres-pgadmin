@@ -32,11 +32,11 @@ public class FilmeWs extends WebService {
 	}
 
 	@GET
-	@Path("iniciarFilme/{id}")
+	@Path("iniciarFilme/filme/{idFilme}/cliente/{idCliente}")
 	@Consumes("application/json")
-	public Response iniciarFilme(@PathParam("id") int id) {
+	public Response iniciarFilme(@PathParam("idFilme") int idFilme, @PathParam("idCliente") int idCliente) {
 		try {
-			Filme result = ((FilmeDao) this.getDao()).iniciarFilme(id);
+			Filme result = ((FilmeDao) this.getDao()).iniciarFilme(idFilme, idCliente);
 			return Response.ok(result).build();
 		} catch (Exception e) {
 			throw new FilmeNaoEncontradoParaIniciarRestException();
