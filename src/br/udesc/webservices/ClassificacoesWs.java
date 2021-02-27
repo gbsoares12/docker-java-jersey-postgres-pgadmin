@@ -19,9 +19,6 @@ public class ClassificacoesWs extends WebService {
 	@POST
 	@Consumes("application/json")
 	public Response insert(Classificacoes registro) {
-		System.out.println("\n\n\n\nTESTE\n\n\n\n");
-		System.out.println("\n\n\n\nTESTE\n\n\n\n");
-		System.out.println("\n\n\n\nTESTE\n\n\n\n");
 		try {
 			Classificacoes newClass = ((ClassificacoesDao) this.getDao()).insertClassificacao(registro);
 			return Response.ok(newClass).build();
@@ -34,10 +31,12 @@ public class ClassificacoesWs extends WebService {
 	@PUT
 	@Consumes("application/json")
 	public Response update(Classificacoes registro) {
-		if (!this.getDao().update(registro)) {
-			throw new RestException(500, "erro na alteração");
+		try {
+			Classificacoes newClass = ((ClassificacoesDao) this.getDao()).updateClassificacao(registro);
+			return Response.ok(newClass).build();
+		} catch (Exception e) {
+			throw new RestException(500, "Erro na alteração");
 		}
-		return Response.ok("Registro update com sucesso").build();
 	}
 
 	@DELETE
@@ -52,7 +51,13 @@ public class ClassificacoesWs extends WebService {
 
 	@Override
 	public Response getById(int id) {
-		return Response.ok("metodo insdisponivel").build();
+		throw new RestException(404, "Método não encontrado");
 	}
-
+	
+	@Override
+	public Response getAll() {
+		throw new RestException(404, "Método não encontrado");
+	}
+	
+	
 }

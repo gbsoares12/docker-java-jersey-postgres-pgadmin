@@ -28,16 +28,11 @@ public class ClassificacoesDao extends BaseDao {
 	}
 
 	public Classificacoes insertClassificacao(Classificacoes classificacao) throws Exception {
-		
+		classificacao.setDtMomento(new Timestamp(System.currentTimeMillis()));
 		try {
 			PreparedStatement stmt = connection.prepareStatement(this.getQueryInsert());
 			this.bindValue(stmt, classificacao, false);
-			ResultSet result = stmt.executeQuery();
-			IModelo registro = this.newModeloInstance();
-			
-			while (result.next()) {
-				this.loadModel(result, registro);
-			}
+			stmt.execute();
 
 			ServicoUsadoDao bcDao = (ServicoUsadoDao) this.newDaoInstance("ServicoUsadoDao");
 
@@ -46,9 +41,30 @@ public class ClassificacoesDao extends BaseDao {
 
 			bcDao.add(backlog);
 
-			return (Classificacoes) registro;
+			return classificacao;
 
 		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new Exception("Erro ao criar classificacao");
+		}
+	}
+
+	public Classificacoes updateClassificacao(Classificacoes classificacao) throws Exception {
+		classificacao.setDtMomento(new Timestamp(System.currentTimeMillis()));
+		try {
+			this.update(classificacao);
+
+			ServicoUsadoDao bcDao = (ServicoUsadoDao) this.newDaoInstance("ServicoUsadoDao");
+
+			ServicoUsado backlog = new ServicoUsado(classificacao.getCdUsuario(), 2,
+					new Timestamp(System.currentTimeMillis()));
+
+			bcDao.add(backlog);
+
+			return classificacao;
+
+		} catch (Exception e) {
+			e.printStackTrace();
 			throw new Exception("Erro ao criar classificacao");
 		}
 	}
@@ -90,7 +106,7 @@ public class ClassificacoesDao extends BaseDao {
 
 			List<Field> camposRegistro = this.getCamposClasse();
 			while (rs.next()) {
-				Classificacoes registro = new Classificacoes(0,0,true);
+				Classificacoes registro = new Classificacoes();
 				this.loadModel(rs, registro);
 				registros.add(registro);
 			}
