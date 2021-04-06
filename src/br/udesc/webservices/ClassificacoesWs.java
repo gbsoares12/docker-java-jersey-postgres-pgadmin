@@ -23,7 +23,7 @@ public class ClassificacoesWs extends WebService {
 			Classificacoes newClass = ((ClassificacoesDao) this.getDao()).insertClassificacao(registro);
 			return Response.ok(newClass).build();
 		} catch (Exception e) {
-			throw new RestException(500, "erro na inserção");
+			throw new RestException(500, "Esse filme já foi avaliado pelo usuário");
 		}
 
 	}
@@ -43,10 +43,13 @@ public class ClassificacoesWs extends WebService {
 	@Path("filme/{idFilme}/cliente/{idUsuario}")
 	@Produces("application/json")
 	public Response delete(@PathParam("idFilme") int idFilme, @PathParam("idUsuario") int idUsuario) {
-		if (!((ClassificacoesDao) this.getDao()).remove(idFilme, idUsuario)) {
-			throw new RestException(404, "Classificação não encontrada");
+		try {
+			boolean result = ((ClassificacoesDao) this.getDao()).remove(idFilme, idUsuario);
+			
+			return Response.ok("Registro removido com sucesso").build();
+		} catch (Exception e) {
+			throw new RestException(500, "Classificacão não encontrada");
 		}
-		return Response.ok("Registro removido com sucesso").build();
 	}
 
 	@Override
