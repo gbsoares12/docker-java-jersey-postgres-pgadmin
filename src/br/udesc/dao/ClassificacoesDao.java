@@ -69,32 +69,31 @@ public class ClassificacoesDao extends BaseDao {
 		}
 	}
 
-	public boolean remove(int idFilme, int idUsuario) {
-		boolean result = false;
-		String query = "DELETE " + " FROM " + this.table + " WHERE " + this.getFiltro();
-		try {
-			PreparedStatement statement = connection.prepareStatement(query);
-			statement.setInt(1, idFilme);
-			statement.setInt(2, idUsuario);
-			ResultSet resultQuery = statement.executeQuery();
-
-			if (resultQuery.rowDeleted()) {
-				ServicoUsadoDao bcDao = (ServicoUsadoDao) this.newDaoInstance("ServicoUsadoDao");
-
-				ServicoUsado backlog = new ServicoUsado(idUsuario, 3, new Timestamp(System.currentTimeMillis()));
-
-				bcDao.add(backlog);
-
-				result = true;
-			} else {
-				throw new Exception("Filme não encontrado");
+		public boolean remove(int idFilme, int idUsuario) {
+			boolean result = false;
+			String query = "DELETE " + " FROM " + this.table + " WHERE " + this.getFiltro();
+			try {
+				PreparedStatement statement = connection.prepareStatement(query);
+				statement.setInt(1, idFilme);
+				statement.setInt(2, idUsuario);
+				int resultQuery = statement.executeUpdate();
+				if (resultQuery > 0) {
+					ServicoUsadoDao bcDao = (ServicoUsadoDao) this.newDaoInstance("ServicoUsadoDao");
+	
+					ServicoUsado backlog = new ServicoUsado(idUsuario, 3, new Timestamp(System.currentTimeMillis()));
+	
+					bcDao.add(backlog);
+	
+					result = true;
+				} else {
+					throw new Exception("Filme não encontrado");
+				}
+	
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
+			return result;
 		}
-		return result;
-	}
 
 	public List<Classificacoes> getAllByFilmes(int filmeId) {
 		List<Classificacoes> registros = new ArrayList<>();

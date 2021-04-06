@@ -365,6 +365,9 @@ public abstract class BaseDao implements IDao {
 			case "boolean": {
 				return rs.getBoolean(campoNome);
 			}
+			case "Timestamp": {
+				return rs.getTimestamp(campoNome);
+			}
 			default:
 				throw new IllegalArgumentException("Tipo do campo inesperado: " + tipoCampo);
 			}
