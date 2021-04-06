@@ -36,10 +36,10 @@ public class FilmeWs extends WebService {
 	@Consumes("application/json")
 	public Response iniciarFilme(@PathParam("idFilme") int idFilme, @PathParam("idCliente") int idCliente) {
 		try {
-			Filme result = ((FilmeDao) this.getDao()).iniciarFilme(idFilme, idCliente);
+			Filme result = ((FilmeDao) this.getDao()).iniciarFilme(idCliente, idFilme);
 			return Response.ok(result).build();
 		} catch (Exception e) {
-			throw new FilmeNaoEncontradoParaIniciarRestException();
+			throw new FilmeNaoEncontradoParaIniciarRestException(e.getMessage());
 		}		
 	}
 

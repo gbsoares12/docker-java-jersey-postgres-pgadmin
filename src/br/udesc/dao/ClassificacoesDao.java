@@ -69,10 +69,10 @@ public class ClassificacoesDao extends BaseDao {
 		}
 	}
 
-		public boolean remove(int idFilme, int idUsuario) {
+		public boolean remove(int idFilme, int idUsuario) throws Exception {
 			boolean result = false;
 			String query = "DELETE " + " FROM " + this.table + " WHERE " + this.getFiltro();
-			try {
+//			try {
 				PreparedStatement statement = connection.prepareStatement(query);
 				statement.setInt(1, idFilme);
 				statement.setInt(2, idUsuario);
@@ -89,9 +89,10 @@ public class ClassificacoesDao extends BaseDao {
 					throw new Exception("Filme não encontrado");
 				}
 	
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//				throw new Exception("Filme não encontrado");
+//			}
 			return result;
 		}
 
